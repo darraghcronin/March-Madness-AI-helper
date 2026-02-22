@@ -23,10 +23,10 @@
       background: var(--navy);
       color: var(--light);
       font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: auto;
+      overflow: hidden;
     }
 
     /* Animated court lines background */
@@ -123,11 +123,12 @@
     /* Chat area */
     .chat-wrapper {
       flex: 1;
-      overflow: auto;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       position: relative;
       z-index: 5;
+      min-height: 0;
     }
 
     #chat-messages {
