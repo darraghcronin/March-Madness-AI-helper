@@ -19,6 +19,10 @@
       --bubble-ai: #1e2d44;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       background: var(--navy);
       color: var(--light);
@@ -29,7 +33,6 @@
       overflow: hidden;
     }
 
-    /* Animated court lines background */
     body::before {
       content: '';
       position: fixed;
@@ -42,7 +45,6 @@
       z-index: 0;
     }
 
-    /* Center circle */
     body::after {
       content: '';
       position: fixed;
@@ -67,6 +69,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
       background: rgba(10,14,26,0.8);
       backdrop-filter: blur(12px);
+      flex-shrink: 0;
     }
 
     .logo {
@@ -120,20 +123,19 @@
       50% { opacity: 0.4; }
     }
 
-    /* Chat area */
     .chat-wrapper {
       flex: 1;
-      overflow: hidden;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       position: relative;
       z-index: 5;
-      min-height: 0;
     }
 
     #chat-messages {
       flex: 1;
-      overflow-y: auto;
+      min-height: 0;
+      overflow-y: scroll;
       padding: 28px 20px;
       display: flex;
       flex-direction: column;
@@ -145,7 +147,6 @@
     #chat-messages::-webkit-scrollbar { width: 4px; }
     #chat-messages::-webkit-scrollbar-thumb { background: rgba(244,107,27,0.3); border-radius: 2px; }
 
-    /* Intro card */
     .intro-card {
       max-width: 640px;
       margin: 0 auto 8px;
@@ -197,7 +198,6 @@
       transform: translateY(-1px);
     }
 
-    /* Messages */
     .message {
       display: flex;
       gap: 12px;
@@ -266,7 +266,6 @@
     .bubble strong { color: var(--gold); }
     .bubble em { color: var(--orange); font-style: normal; font-weight: 500; }
 
-    /* Typing indicator */
     .typing-bubble {
       display: flex;
       gap: 5px;
@@ -288,8 +287,8 @@
       40% { transform: translateY(-6px); opacity: 1; }
     }
 
-    /* Input area */
     .input-area {
+      flex-shrink: 0;
       position: relative;
       z-index: 10;
       padding: 16px 20px 24px;
@@ -399,7 +398,6 @@
   const inputEl = document.getElementById('user-input');
   const sendBtn = document.getElementById('send-btn');
 
-  // Auto-resize textarea
   inputEl.addEventListener('input', () => {
     inputEl.style.height = 'auto';
     inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
@@ -455,11 +453,8 @@
   }
 
   function formatText(text) {
-    // Bold **text**
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Italic *text*
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    // Line breaks
     text = text.replace(/\n/g, '<br>');
     return text;
   }
