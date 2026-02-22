@@ -19,18 +19,12 @@
       --bubble-ai: #1e2d44;
     }
 
-    html, body {
-      height: auto;
-      overflow-y: auto;
-    }
-
     body {
       background: var(--navy);
       color: var(--light);
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
     }
 
     body::before {
@@ -41,20 +35,6 @@
         radial-gradient(ellipse 60% 40% at 50% 100%, rgba(244,107,27,0.08) 0%, transparent 70%),
         repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(255,255,255,0.03) 120px),
         repeating-linear-gradient(0deg, transparent, transparent 119px, rgba(255,255,255,0.03) 120px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -180px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 360px;
-      height: 360px;
-      border: 2px solid rgba(244,107,27,0.12);
-      border-radius: 50%;
       pointer-events: none;
       z-index: 0;
     }
@@ -97,7 +77,6 @@
       padding: 2px 7px;
       border-radius: 3px;
       text-transform: uppercase;
-      margin-bottom: 4px;
     }
 
     .status {
@@ -122,24 +101,21 @@
     }
 
     #chat-messages {
-      flex: 1;
-      padding: 100px 20px 28px;
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 120px;
       display: flex;
       flex-direction: column;
       gap: 18px;
-      position: relative;
-      z-index: 5;
     }
 
     .intro-card {
-      max-width: 640px;
-      margin: 0 auto 8px;
-      width: 100%;
       background: linear-gradient(135deg, rgba(244,107,27,0.15), rgba(251,191,36,0.05));
       border: 1px solid rgba(244,107,27,0.25);
       border-radius: 16px;
       padding: 28px;
-      animation: fadeUp 0.6s ease both;
     }
 
     .intro-card h2 {
@@ -179,13 +155,11 @@
       background: rgba(244,107,27,0.2);
       border-color: var(--orange);
       color: var(--orange);
-      transform: translateY(-1px);
     }
 
     .message {
       display: flex;
       gap: 12px;
-      max-width: 720px;
       width: 100%;
       animation: fadeUp 0.35s ease both;
     }
@@ -195,12 +169,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .message.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-
-    .message.ai { align-self: flex-start; }
+    .message.user { flex-direction: row-reverse; }
 
     .avatar {
       width: 36px;
@@ -214,22 +183,15 @@
       margin-top: 2px;
     }
 
-    .avatar.ai-avatar {
-      background: linear-gradient(135deg, var(--orange), #e05a00);
-      font-size: 1.1rem;
-    }
-
-    .avatar.user-avatar {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
+    .avatar.ai-avatar { background: linear-gradient(135deg, var(--orange), #e05a00); }
+    .avatar.user-avatar { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); }
 
     .bubble {
       padding: 13px 17px;
       border-radius: 14px;
       font-size: 0.92rem;
       line-height: 1.65;
-      max-width: 560px;
+      max-width: 85%;
     }
 
     .message.user .bubble {
@@ -270,11 +232,13 @@
     }
 
     .input-area {
-      position: sticky;
+      position: fixed;
       bottom: 0;
+      left: 0;
+      right: 0;
       z-index: 10;
       padding: 16px 20px 24px;
-      background: rgba(10,14,26,0.95);
+      background: rgba(10,14,26,0.97);
       backdrop-filter: blur(12px);
       border-top: 1px solid rgba(255,255,255,0.06);
     }
@@ -468,7 +432,7 @@
       addMessage('ai', data.reply);
     } catch (err) {
       removeTyping();
-      addMessage('ai', 'Network error — make sure the API function is deployed and your API key is set. Check the setup guide!');
+      addMessage('ai', 'Network error — make sure the API function is deployed and your API key is set.');
     } finally {
       sendBtn.disabled = false;
       inputEl.focus();
